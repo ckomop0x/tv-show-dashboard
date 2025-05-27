@@ -2,7 +2,7 @@
 
 A modern, responsive TV show dashboard built with Vue 3, TypeScript, and Tailwind CSS. Browse shows by genre, search for your favorites, and view detailed information about each show. Application uses data from [TVMaze API](https://www.tvmaze.com/api).
 
-![Dashboard Preview](./public/screenshot.png)
+![Dashboard Preview](./public/screenshot.jpg)
 
 ## Features
 
