@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted } from 'vue';
-import type { Show } from '@/types/show';
 import Rating from '@/components/Rating.vue';
+import type { Show } from '@/types/Show';
+import Image from '@/components/Image.vue';
 
 const props = defineProps<{
   show: Show;
@@ -65,40 +66,8 @@ const statusClass = computed(() => {
 
       <div class="p-8 max-[480px]:p-4">
         <div class="flex flex-col sm:flex-row gap-8 mb-8">
-          <div class="flex-none w-full sm:w-[200px]">
-            <img
-              v-if="show.image?.medium"
-              :src="show.image.medium"
-              :alt="show.name"
-              class="w-full h-auto rounded-sm sm:max-w-full max-w-[150px] mx-auto"
-            />
-            <span
-              v-else
-              class="flex items-center justify-center w-full h-full bg-indigo-200 text-indigo-700 text-xs font-semibold rounded-sm p-6"
-            >
-              <svg
-                class="w-6 h-6 mr-2 opacity-60"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-              >
-                <rect
-                  x="3"
-                  y="5"
-                  width="18"
-                  height="14"
-                  rx="2"
-                  stroke="currentColor"
-                />
-                <path
-                  d="M3 17l5-5a2 2 0 0 1 2.8 0l5.2 5.2"
-                  stroke="currentColor"
-                />
-                <circle cx="8.5" cy="9.5" r="1.5" fill="currentColor" />
-              </svg>
-              No image
-            </span>
+          <div class="flex-none w-full sm:w-[200px] rounded-sm overflow-hidden">
+            <Image :url="show.image?.medium" :alt="show.name" />
           </div>
 
           <div class="flex-1">

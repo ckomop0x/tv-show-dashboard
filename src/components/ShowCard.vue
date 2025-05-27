@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Show } from '@/types/show';
+import type { Show } from '@/types/Show';
 import Image from '@/components/Image.vue';
 import Rating from '@/components/Rating.vue';
 

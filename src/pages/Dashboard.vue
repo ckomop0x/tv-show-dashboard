@@ -2,31 +2,19 @@
 import { ref, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { fetchAllShows, fetchShowById, searchShows } from '@/services/tvmaze';
-import type { Show } from '@/types/show';
+import type { Show } from '@/types/Show';
 import ShowDetailsModal from '@/components/ShowDetailsModal.vue';
 import GenreSection from '@/components/GenreSection.vue';
 import SearchBar from '@/components/SearchBar.vue';
-import ShowCard from '@/components/ShowCard.vue';
+import { useShowModal } from '@/composables/useShowModal';
 
 const showsByGenre = ref<Record<string, Show[]>>({});
 const searchResults = ref<Show[]>([]);
-const selectedShow = ref<Show | null>(null);
-const modalOpen = ref(false);
-
 const route = useRoute();
 const router = useRouter();
 
-const openModal = (show: Show): void => {
-  selectedShow.value = show;
-  modalOpen.value = true;
-  router.push(`/show/${show.id}`);
-};
-
-const closeModal = (): void => {
-  selectedShow.value = null;
-  modalOpen.value = false;
-  router.push('/');
-};
+const { selectedShow, modalOpen, showModal, openModal, closeModal } =
+  useShowModal(router);
 
 const handleSearch = async (query: string) => {
   if (query.trim().length < 2) {
@@ -40,9 +28,10 @@ const checkRouteAndOpenModal = async () => {
   if (route.params.id) {
     try {
       const show = await fetchShowById(route.params.id.toString());
+      void router.push(`/show/${show.id}`);
       openModal(show);
     } catch (err) {
-      selectedShow.value = null;
+      selectedShow.value = undefined;
       modalOpen.value = false;
     }
   } else {
@@ -101,25 +90,19 @@ onMounted(async () => {
   </header>
   <div class="p-4 mx-auto mt-8">
     <div v-if="searchResults.length > 0">
-      <h2 class="text-2xl font-bold mb-4">Search Results</h2>
-      <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
-        <ShowCard
-          v-for="show in searchResults"
-          :key="show.id"
-          :show="show"
-          :onClick="openModal"
-        />
-      </div>
+      <GenreSection
+        :shows="searchResults"
+        genre="Search Results"
+        :openModal="openModal"
+      />
     </div>
 
-    <template v-if="searchResults.length === 0">
-      <div v-for="(shows, genre) in showsByGenre" :key="genre">
-        <GenreSection :shows="shows" :genre="genre" :openModal="openModal" />
-      </div>
-    </template>
+    <div v-for="(shows, genre) in showsByGenre" :key="genre">
+      <GenreSection :shows="shows" :genre="genre" :openModal="openModal" />
+    </div>
 
     <ShowDetailsModal
-      v-if="modalOpen"
+      v-if="showModal && selectedShow"
       :show="selectedShow"
       @close="closeModal"
     />
