@@ -79,10 +79,8 @@ onMounted(async () => {
   <header
     class="sticky top-0 z-[100] bg-indigo-500 backdrop-blur shadow-md py-4"
   >
-    <div class="mx-auto px-4 flex items-center justify-between gap-8">
-      <h1 class="text-2xl font-bold text-white whitespace-nowrap">
-        TV Dashboard
-      </h1>
+    <div class="mx-auto px-4 flex items-center justify-between">
+      <h1 class="text-2xl font-bold text-white whitespace-nowrap">TV Shows</h1>
       <div>
         <SearchBar :loading="false" @search="handleSearch" />
       </div>
