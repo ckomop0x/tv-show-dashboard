@@ -59,7 +59,7 @@ const statusClass = computed(() => {
     >
       <button
         @click="closeModal"
-        class="absolute top-4 right-4 hover:bg-black/10 w-10 h-10 rounded-full text-xl cursor-pointer z-10 transition"
+        class="absolute top-6 right-6 bg-white sm:bg-transparent hover:bg-black/10 w-10 h-10 rounded-full text-xl cursor-pointer z-10 transition"
       >
         ✕
       </button>
