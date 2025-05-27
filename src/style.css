@@ -1,2 +1,7 @@
 @import "tailwindcss";
 
+body {
+  background-color: #f0f1f5;
+  @apply text-sm;
+}
+
